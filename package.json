@@ -1,6 +1,6 @@
 {
   "name": "jira_jubilee",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "Aaron Smith <ajsmith@vfogroup.com>",
   "description": "description",
   "main": "scripts/index.js",
