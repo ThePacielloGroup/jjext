@@ -1,0 +1,15 @@
+// ==UserScript==
+// @name        TPG Jira Jubilee
+// @version     __VERSION__
+// @namespace   https://services.vfogroup.com/jira_jubilee
+// @updateURL   https://services.vfogroup.com/jira_jubilee/tpg_jira_jubilee.meta.js
+// @downloadURL https://services.vfogroup.com/jira_jubilee/tpg_jira_jubilee.user.js
+// @iconURL     https://services.vfogroup.com/jira_jubilee/jjlogo.ico
+// @icon64URL   https://services.vfogroup.com/jira_jubilee/jjlogo.ico
+// @homepageURL https://services.vfogroup.com
+// @author      Aaron Smith
+// @description Provides TPG specific utilities for manipulating Jira.
+// @include     https://paciellogroup.atlassian.net/*
+// @grant       none
+// @run-at      document-idle
+// ==/UserScript==
