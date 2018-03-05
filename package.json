@@ -1,0 +1,23 @@
+{
+  "name": "jira_jubilee",
+  "version": "1.1.1",
+  "author": "Aaron Smith <ajsmith@vfogroup.com>",
+  "description": "description",
+  "main": "scripts/index.js",
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^16.1.0",
+    "concat": "^1.0.3",
+    "userscript-utils": "^1.0.1"
+  },
+  "config": {
+    "userjs": "tpg_jira_jubilee.user.js"
+  },
+  "scripts": {
+    "test": "npm run build:js && web-ext lint -s ./dist/extension --self-hosted",
+    "lint": "npm test",
+    "build:js": "browserify src/index.js -o ./dist/extension/content_scripts/$npm_package_config_userjs",
+    "build:ff": "npm run build:js && web-ext build -s ./dist/extension -a ./dist/web-ext-artifacts",
+    "build:user": "npm run build:js && node src/makeUserscript.js ./dist/extension/content_scripts/$npm_package_config_userjs"
+  }
+}
