@@ -15,7 +15,7 @@ exports.addAltVerifyBtn = function () {
 		});
 		descMod.parentNode.insertBefore(altBtn, descMod);
 	}
-}
+};
 
 // verifyAlts - Verifies the alt attributes in a Jira issue page's description block
 function verifyAlts() {

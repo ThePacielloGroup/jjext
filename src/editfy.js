@@ -4,14 +4,16 @@ const general = require('./general.js');
 
 exports.addToolbarButtons = function(node) {
 	const toolbarMains = node.querySelectorAll('.aui-toolbar2');
-	toolbarMains.forEach(function(toolbarMain) {
-		const toolbarPrimary = toolbarMain.querySelector('.aui-toolbar2-primary');
-		if (toolbarPrimary) {
-			addHighlightBtn(toolbarMain, toolbarPrimary);
-			addStrikethroughBtn(toolbarMain, toolbarPrimary);
-			addKbdBtn(toolbarMain, toolbarPrimary);
-		}
-	});
+	if (toolbarMains) {
+        toolbarMains.forEach(function (toolbarMain) {
+            const toolbarPrimary = toolbarMain.querySelector('.aui-toolbar2-primary');
+            if (toolbarPrimary) {
+                addHighlightBtn(toolbarMain, toolbarPrimary);
+                addStrikethroughBtn(toolbarMain, toolbarPrimary);
+                addKbdBtn(toolbarMain, toolbarPrimary);
+            }
+        });
+    }
 };
 
 function addHighlightBtn(toolbarMain, toolbarPrimary) {
@@ -106,4 +108,3 @@ function strikethrough(text) {
 	const subst = '<del>$1</del>';
 	return text.replace(regex, subst);
 }
-
