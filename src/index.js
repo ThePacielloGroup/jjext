@@ -4,6 +4,7 @@ const modify = require('./modify.js');
 const verify = require('./verify.js');
 const examples = require('./examples.js');
 const observify = require('./observify.js');
+const preview = require('./preview.js');
 
 // Make sure we're on a Jira page.
 if (document.querySelector('meta[name="application-name"][content="JIRA"]')) {
@@ -20,7 +21,7 @@ if (document.querySelector('meta[name="application-name"][content="JIRA"]')) {
 			}
 		}
 	}
-	//addCodePreviewBtn();
+	preview.addCodePreviewBtn();
 	verify.addAltVerifyBtn();
 	examples.addExamplesBtn();
 	modify.modifySelects(document);

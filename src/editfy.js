@@ -84,27 +84,3 @@ function addKbdBtn(toolbarMain, toolbarPrimary) {
 	general.bindEvent(b, 'click', btnHandler);
 	toolbarPrimary.appendChild(b);
 };
-
-/**
- * Replaces custom formatted strings to use HTML <mark> elements
- * @param {String} text Text to convert
- * @returns {void|*|{REPLACE, REPLACE_NEGATIVE}|String|string|XML}
- */
-function highlight(text) {
-	// Uses [\s\S] to capture multilines (See https://stackoverflow.com/questions/4544636/what-does-s-s-mean-in-regex-in-php/4544642#4544642)
-	const regex = /\?{2}([\s\S]*?)\?{2}/gm;
-	const subst = '<mark>$1</mark>';
-	return text.replace(regex, subst);
-}
-
-/**
- * Replaces KB like strikethrough markup "~~" with HTML <del> elements
- * @param {String} text Text to convert
- * @returns {void|*|{REPLACE, REPLACE_NEGATIVE}|String|string|XML}
- */
-function strikethrough(text) {
-	// Uses [\s\S] to capture multilines (See https://stackoverflow.com/questions/4544636/what-does-s-s-mean-in-regex-in-php/4544642#4544642)
-	const regex = /~{2}([\s\S]*?)~{2}/gm;
-	const subst = '<del>$1</del>';
-	return text.replace(regex, subst);
-}

@@ -2,6 +2,7 @@
 
 const modify = require('./modify.js');
 const editfy = require('./editfy.js');
+const preview = require('./preview');
 
 exports.myObserver = new MutationObserver(
 	function (mutations) {
@@ -34,6 +35,9 @@ function childListMutationHandler(nodes) {
 				}
 				if (node.querySelector('div[id^="wiki-edit"].wiki-edit-toolbar')) {
 					editfy.addToolbarButtons(node);
+				}
+				if (node.querySelectorAll('.code.panel').length) {
+					preview.addCodePreviewBtn();
 				}
 				break;
 			default:
