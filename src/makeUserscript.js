@@ -30,7 +30,8 @@ function updateVersion() {
                 }
             });
         });
-        const x = userscript_utils.fromFileSync(target);
+        let x = userscript_utils.fromFileSync(target);
+        x = x.replace(/__VERSION__/g, version);
         console.log(x);
         fs.writeFileSync(meta, x);
     }
