@@ -1,6 +1,7 @@
 'use strict';
 
 const general = require('./general.js');
+const hljs = require('../lib/highlight.js/build/highlight.pack.js');
 
 let lastFocus = null;
 
@@ -23,13 +24,7 @@ exports.addCodePreviewBtn = function() {
         }
     }
 
-    // Code preview is going to require highlight.js, so we need to add a reference to it.
-    // <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    const s = document.createElement('script');
-    s.setAttribute('src', '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js');
-    document.head.appendChild(s);
-
-    // Also include the highlight.js styles
+    // Include a link to the highlight.js styles
     // <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     const l = document.createElement('link');
     l.setAttribute('rel', 'stylesheet');
@@ -148,13 +143,15 @@ exports.addCodePreviewBtn = function() {
       }
     `;
     document.head.appendChild(style);
-
 };
 
 function previewCode(target) {
-    let s = target.previousElementSibling.querySelector("pre").textContent;
-    const r = /*(*/highlight(strikethrough(s))/*).replace(/[\u00A0-\u9999<>\&]/gim, function(i) {return '&#' + i.charCodeAt(0) + ';';});*/;
-    previewCodeDialog(s);
+    try {
+        let s = target.previousElementSibling.querySelector("pre").textContent;
+        previewCodeDialog(s);
+    } catch (e) {
+        alert("Couldn't find code panel.");
+    }
 }
 
 function previewCodeDialog(content) {
