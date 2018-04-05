@@ -6,7 +6,8 @@
   "main": "scripts/index.js",
   "license": "ISC",
   "dependencies": {
-    "browserify": "^16.1.0",
+    "acorn": "^5.5.3",
+    "browserify": "^16.1.1",
     "concat": "^1.0.3",
     "userscript-utils": "^1.0.1"
   },

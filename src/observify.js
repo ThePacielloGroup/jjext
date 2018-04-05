@@ -28,6 +28,7 @@ function observer(mutation) {
 // childListMutationHandler - Handle the addition of nodes to the document
 function childListMutationHandler(nodes) {
 	nodes.forEach(function (node) {
+        console.log(node);
 		switch (node.nodeType) {
 			case Node.ELEMENT_NODE:
 				if (node.querySelectorAll('select[multiple]').length) {
