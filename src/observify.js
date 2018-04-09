@@ -3,6 +3,7 @@
 const modify = require('./modify.js');
 const editfy = require('./editfy.js');
 const preview = require('./preview');
+const renamify = require('./renamify');
 
 exports.myObserver = new MutationObserver(
 	function (mutations) {
@@ -28,7 +29,6 @@ function observer(mutation) {
 // childListMutationHandler - Handle the addition of nodes to the document
 function childListMutationHandler(nodes) {
 	nodes.forEach(function (node) {
-        console.log(node);
 		switch (node.nodeType) {
 			case Node.ELEMENT_NODE:
 				if (node.querySelectorAll('select[multiple]').length) {
@@ -39,6 +39,9 @@ function childListMutationHandler(nodes) {
 				}
 				if (node.querySelectorAll('.code.panel').length) {
 					preview.addCodePreviewBtn();
+				}
+				if (node.getAttribute('role') === 'dialog' && node.querySelector('#cp-title-container')) {
+                    //renamify.addRenameBtn();
 				}
 				break;
 			default:
