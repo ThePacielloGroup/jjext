@@ -3,7 +3,8 @@
 const modify = require('./modify.js');
 const editfy = require('./editfy.js');
 const preview = require('./preview');
-const renamify = require('./renamify');
+//const renamify = require('./renamify');
+const verify = require('./verify.js');
 
 exports.myObserver = new MutationObserver(
 	function (mutations) {
@@ -43,6 +44,9 @@ function childListMutationHandler(nodes) {
 				if (node.getAttribute('role') === 'dialog' && node.querySelector('#cp-title-container')) {
                     //renamify.addRenameBtn();
 				}
+                if (node.querySelector('.command-bar')) {
+                    verify.addAltVerifyBtn();
+                }
 				break;
 			default:
 				break;
