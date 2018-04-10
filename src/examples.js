@@ -5,17 +5,21 @@ let lastFocus = null;
 
 // addExamplesBtn - Adds a button to a Jira dashboard issue page for listing all issues with an 'example' label
 exports.addExamplesBtn = function () {
-    const dash = document.querySelector('div#dash-options');
-    if (dash) {
-        const exampleBtn = document.createElement('button');
-        exampleBtn.setAttribute('class', 'aui-button');
-        const exampleBtnName = document.createTextNode('Examples');
-        exampleBtn.appendChild(exampleBtnName);
-        general.bindEvent(exampleBtn, 'click', function() {
-            getExamples();
-        });
-        dash.insertBefore(exampleBtn, dash.firstChild);
+    const commandBar = document.querySelector('.command-bar .toolbar-split');
+    if (commandBar) {
+        if (!commandBar.querySelector('#exampleBtn')) {
+            const exampleBtn = document.createElement('button');
+            exampleBtn.setAttribute('class', 'aui-button');
+            exampleBtn.setAttribute('id', 'exampleBtn');
+            const exampleBtnName = document.createTextNode('Example Issues');
+            exampleBtn.appendChild(exampleBtnName);
+            general.bindEvent(exampleBtn, 'click', function() {
+                getExamples();
+            });
+            commandBar.appendChild(exampleBtn);
+        }
     }
+
 };
 
 // getExamples - Gets issues with the 'example' label

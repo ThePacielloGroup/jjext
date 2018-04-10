@@ -5,6 +5,7 @@ const editfy = require('./editfy.js');
 const preview = require('./preview');
 //const renamify = require('./renamify');
 const verify = require('./verify.js');
+const examples = require('./examples.js');
 
 exports.myObserver = new MutationObserver(
 	function (mutations) {
@@ -46,6 +47,7 @@ function childListMutationHandler(nodes) {
 				}
                 if (node.querySelector('.command-bar')) {
                     verify.addAltVerifyBtn();
+                    examples.addExamplesBtn();
                 }
 				break;
 			default:
