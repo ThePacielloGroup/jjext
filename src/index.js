@@ -19,13 +19,17 @@ if (document.querySelector('meta[name="application-name"][content="JIRA"]')) {
 		}
 		if (cssRules) {
             for (let i = 0; i < cssRules.length; i++) {
-                console.log(i);
                 if (cssRules[i].cssText.indexOf('.editable-field form.aui .select') > 0) {
                     if (cssRules[i].cssText.indexOf('height:') > 0) {
                         cssRules[i].style.height = 'auto';
-                        break;
                     }
                 }
+                // While we're here, remove the width restriction from the remediation guidance container so that it's easier to read.
+				if (cssRules[i].cssText.indexOf('.adg3 #details-module .item .editable-field') === 0) {
+					if (cssRules[i].cssText.indexOf('max-width:') > 0) {
+						cssRules[i].style.maxWidth = null;
+					}
+				}
             }
         }
 	}

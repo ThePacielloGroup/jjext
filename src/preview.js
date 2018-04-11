@@ -10,7 +10,7 @@ exports.addCodePreviewBtn = function() {
     const codePanels = document.querySelectorAll('.code.panel');
     for (let i = 0; i < codePanels.length; i++) {
         const panel = codePanels[i];
-        if (typeof(panel.nextElementSibling && panel.nextElementSibling.dataset.codepreviewbtn) === 'undefined') {
+        if (!panel.nextElementSibling || typeof(panel.nextElementSibling && panel.nextElementSibling.dataset.codepreviewbtn) === 'undefined') {
             const previewBtn = document.createElement('button');
             previewBtn.setAttribute('class', 'aui-button');
             previewBtn.setAttribute('data-codepreviewbtn', '');
