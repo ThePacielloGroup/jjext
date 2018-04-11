@@ -1,2 +1,12 @@
+# Packages
+lib/highlight.js/build/
+node_modules/
+
+# Built stuff
+dist/web-ext-artifacts/*.xpi
+dist/web-ext-artifacts/*.zip
+tpg_jira_jubilee.user.js
+
+# Editor/IDE stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
