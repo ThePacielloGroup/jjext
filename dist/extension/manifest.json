@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "Jira Jubilee",
+  "version": "1.1.8",
+
+  "description": "Provides TPG specific utilities for manipulating Jira.",
+
+  "icons": {
+    "48": "icons/48.png",
+	"96": "icons/96.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://paciellogroup.atlassian.net/*"],
+      "js": ["content_scripts/tpg_jira_jubilee.user.js"]
+    }
+  ],
+
+  "applications": {
+    "gecko": {
+      "update_url": "https://services.vfogroup.com/jira_jubilee/web-ext/updates.json"
+    }
+  }
+}

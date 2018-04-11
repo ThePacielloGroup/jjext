@@ -110,17 +110,21 @@ let lastFocus = null;
 
 // addExamplesBtn - Adds a button to a Jira dashboard issue page for listing all issues with an 'example' label
 exports.addExamplesBtn = function () {
-    const dash = document.querySelector('div#dash-options');
-    if (dash) {
-        const exampleBtn = document.createElement('button');
-        exampleBtn.setAttribute('class', 'aui-button');
-        const exampleBtnName = document.createTextNode('Examples');
-        exampleBtn.appendChild(exampleBtnName);
-        general.bindEvent(exampleBtn, 'click', function() {
-            getExamples();
-        });
-        dash.insertBefore(exampleBtn, dash.firstChild);
+    const commandBar = document.querySelector('.command-bar .toolbar-split');
+    if (commandBar) {
+        if (!commandBar.querySelector('#exampleBtn')) {
+            const exampleBtn = document.createElement('button');
+            exampleBtn.setAttribute('class', 'aui-button');
+            exampleBtn.setAttribute('id', 'exampleBtn');
+            const exampleBtnName = document.createTextNode('Example Issues');
+            exampleBtn.appendChild(exampleBtnName);
+            general.bindEvent(exampleBtn, 'click', function() {
+                getExamples();
+            });
+            commandBar.appendChild(exampleBtn);
+        }
     }
+
 };
 
 // getExamples - Gets issues with the 'example' label
@@ -276,58 +280,43 @@ exports.bindEvent = function(element, type, handler, useCapture) {
 },{}],5:[function(require,module,exports){
 'use strict';
 
-console.log("JJEXT Init");
-
-console.log("require modify");
 const modify = require('./modify.js');
-console.log("require verify");
 const verify = require('./verify.js');
-console.log("require examples");
 const examples = require('./examples.js');
-console.log("require observe");
 const observify = require('./observify.js');
-console.log("require preview");
 const preview = require('./preview.js');
 
-console.log("checking page");
 // Make sure we're on a Jira page.
 if (document.querySelector('meta[name="application-name"][content="JIRA"]')) {
-	console.log("on Jira page");
 	// In order to get selects to accept a new size, we have to hack Jira's select styling and set the height to auto, rather than a fixed size.
-	console.log("checking sheet");
 	const sheet = document.querySelector('link[href*="batch.css"][data-wrm-key*="jira.view.issue"]');
-	console.log(sheet);
 	if (sheet) {
-		console.log("got sheet");
 		let cssRules = null;
 		try {
             cssRules = sheet.sheet.cssRules;
         } catch (e) {
 			// CSS probably comes from a different domain, so we can't access cssRules
 		}
-		console.log(cssRules);
 		if (cssRules) {
             for (let i = 0; i < cssRules.length; i++) {
-                console.log(i);
                 if (cssRules[i].cssText.indexOf('.editable-field form.aui .select') > 0) {
                     if (cssRules[i].cssText.indexOf('height:') > 0) {
                         cssRules[i].style.height = 'auto';
-                        break;
                     }
                 }
+                // While we're here, remove the width restriction from the remediation guidance container so that it's easier to read.
+				if (cssRules[i].cssText.indexOf('.adg3 #details-module .item .editable-field') === 0) {
+					if (cssRules[i].cssText.indexOf('max-width:') > 0) {
+						cssRules[i].style.maxWidth = null;
+					}
+				}
             }
         }
-		console.log("done with sheet");
 	}
-	console.log("Adding code preview");
 	preview.addCodePreviewBtn();
-	console.log("Adding verify alt");
 	verify.addAltVerifyBtn();
-	console.log("Adding examples");
 	examples.addExamplesBtn();
-	console.log("Modifying selects");
 	modify.modifySelects(document);
-	console.log("Observing");
 	observify.myObserver.observe(document.documentElement, {
 		attributes: true,
 		characterData: true,
@@ -337,7 +326,7 @@ if (document.querySelector('meta[name="application-name"][content="JIRA"]')) {
 		characterDataOldValue: true
 	});
 }
-},{"./examples.js":3,"./modify.js":6,"./observify.js":7,"./preview.js":8,"./verify.js":10}],6:[function(require,module,exports){
+},{"./examples.js":3,"./modify.js":6,"./observify.js":7,"./preview.js":8,"./verify.js":9}],6:[function(require,module,exports){
 'use strict';
 
 // modifySelects - Makes select elements size match the number of their options
@@ -357,7 +346,9 @@ exports.modifySelects = function(node) {
 const modify = require('./modify.js');
 const editfy = require('./editfy.js');
 const preview = require('./preview');
-const renamify = require('./renamify');
+//const renamify = require('./renamify');
+const verify = require('./verify.js');
+const examples = require('./examples.js');
 
 exports.myObserver = new MutationObserver(
 	function (mutations) {
@@ -395,8 +386,12 @@ function childListMutationHandler(nodes) {
 					preview.addCodePreviewBtn();
 				}
 				if (node.getAttribute('role') === 'dialog' && node.querySelector('#cp-title-container')) {
-                    renamify.addRenameBtn();
+                    //renamify.addRenameBtn();
 				}
+                if (node.querySelector('.command-bar')) {
+                    verify.addAltVerifyBtn();
+                    examples.addExamplesBtn();
+                }
 				break;
 			default:
 				break;
@@ -407,7 +402,7 @@ function childListMutationHandler(nodes) {
 
 
 
-},{"./editfy.js":2,"./modify.js":6,"./preview":8,"./renamify":9}],8:[function(require,module,exports){
+},{"./editfy.js":2,"./examples.js":3,"./modify.js":6,"./preview":8,"./verify.js":9}],8:[function(require,module,exports){
 'use strict';
 
 const general = require('./general.js');
@@ -420,7 +415,7 @@ exports.addCodePreviewBtn = function() {
     const codePanels = document.querySelectorAll('.code.panel');
     for (let i = 0; i < codePanels.length; i++) {
         const panel = codePanels[i];
-        if (typeof(panel.nextElementSibling && panel.nextElementSibling.dataset.codepreviewbtn) === 'undefined') {
+        if (!panel.nextElementSibling || typeof(panel.nextElementSibling && panel.nextElementSibling.dataset.codepreviewbtn) === 'undefined') {
             const previewBtn = document.createElement('button');
             previewBtn.setAttribute('class', 'aui-button');
             previewBtn.setAttribute('data-codepreviewbtn', '');
@@ -679,329 +674,57 @@ function strikethrough(text) {
 
 const general = require('./general.js');
 
-let lastFocus = null;
-let container = null;
-
-// addRenameBtn - Adds a button to the attachment preview dialog for renaming
-exports.addRenameBtn = function() {
-    container = document.querySelector('#cp-title-container');
-    if (container) {
-        const renameBtn = document.createElement('button');
-        renameBtn.setAttribute('class', 'aui-button');
-        const renameBtnName = document.createTextNode('Rename Attachment');
-        renameBtn.appendChild(renameBtnName);
-        const attachmentName = container.innerText;
-        general.bindEvent(renameBtn, 'click', function (e) {
-            e.preventDefault();
-            renameDlg(attachmentName);
-        });
-        // Add some space before adding the button
-        container.firstElementChild.innerHTML += '&nbsp;';
-        container.firstElementChild.appendChild(renameBtn);
-    }
-};
-
-function renameDlg(attachmentName) {
-    lastFocus = document.activeElement;
-    const background = document.createElement("div");
-    background.setAttribute("id", "dlgAttachmentRenameBackground");
-    background.setAttribute("tabindex", "-1");
-    background.style.cssText = "position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: rgba(0,0,0,.75);display: flex;align-items: center;justify-content: center;z-index: 1000;";
-    container.appendChild(background);
-
-    const dialog = document.createElement("div");
-    dialog.setAttribute("id", "dlgAttachmentRenameDialog");
-    dialog.setAttribute("role", "dialog");
-    dialog.setAttribute("aria-labelledby", "dlgAttachmentRenameTitle");
-    dialog.setAttribute("aria-hidden", false);
-    dialog.style.cssText = "border:2px #000000 solid;border-radius:10px;background:#ffffff;display:flex;flex-direction:column;justify-content:space-between:height:12%;width:40%";
-    general.bindEvent(dialog, "keydown", function(e) {
-        e = e || event;
-        switch (e.keyCode) {
-            case 9: // Tab
-                const ctrls = dialog.querySelectorAll(".tabable");
-                if (e.shiftKey) {
-                    if (e.target.isEqualNode(ctrls[0])) {
-                        ctrls[ctrls.length - 1].focus();
-                        e.preventDefault();
-                    }
-                } else {
-                    if (e.target.isEqualNode(ctrls[ctrls.length -1])) {
-                        ctrls[0].focus();
-                        e.preventDefault();
-                    }
-                }
-                break;
-            case 27: // Escape
-                closePreviewDlg();
-                break;
-            default:
-                break;
-        }
-    });
-    background.appendChild(dialog);
-
-    const dialogTitle = document.createElement('h1');
-    dialogTitle.setAttribute('id', 'dlgAttachmentRenameTitle');
-    dialogTitle.innerHTML = 'Rename Attachment';
-    dialogTitle.style.cssText = 'margin:10px;';
-    dialog.appendChild(dialogTitle);
-
-    const dialogContent = document.createElement('div');
-    dialogContent.innerHTML = '<h2>Notes</h2><ol id="renameNotes">' +
-        '<li>The page will reload after renaming. If you have unsaved work, save before renaming.</li>' +
-        '<li>Any references to the previous file name will need to be updated manually.</li>' +
-        '<li>If you do not have permissions to remove attachments in this issue, the attachment will be duplicated with the new filename. Contact the original author to have the previous attachment removed.</li>' +
-    '</ol>';
-    dialogContent.innerHTML += 'Name: ';
-    dialogContent.style.cssText = 'margin:10px;border:1px #ededed solid;padding:1em;color:#000000;';
-    dialog.appendChild(dialogContent);
-
-    const dialogRenameInput = document.createElement('input');
-    dialogRenameInput.setAttribute('type', 'text');
-    dialogRenameInput.className = 'tabable';
-    dialogRenameInput.setAttribute('id', 'attachmentName');
-    dialogRenameInput.setAttribute('aria-label', 'Attachment Name');
-    dialogRenameInput.setAttribute('aria-describedby', 'renameNotes');
-    dialogRenameInput.value = attachmentName;
-    dialogRenameInput.setAttribute('data-oldval', attachmentName);
-    dialogRenameInput.style.cssText = 'border:1px solid #dcdcdc;outline:0;width:92%;padding:0.5em;';
-    dialogContent.appendChild(dialogRenameInput);
-
-    const dialogButtonContainer = document.createElement('div');
-    dialogButtonContainer.style.cssText = 'display:flex;flex-direction:row;justify-content:right;';
-    dialog.appendChild(dialogButtonContainer);
-
-    const dialogRenameBtn = document.createElement('button');
-    dialogRenameBtn.setAttribute('id', 'dlgAttachmentRenameBtn');
-    dialogRenameBtn.setAttribute('class', 'aui-button tabable');
-    dialogRenameBtn.innerHTML = 'Rename';
-    dialogRenameBtn.style.cssText = 'margin:10px;width:100px;flex:0 0 auto;align-self:flex-end;';
-    general.bindEvent(dialogRenameBtn, 'click', function(e) {
-        renameAttachment(dialog.querySelector('#attachmentName').dataset.oldval, dialog.querySelector('#attachmentName').value);
-    });
-    dialogButtonContainer.appendChild(dialogRenameBtn);
-
-    const dialogCloseBtn = document.createElement('button');
-    dialogCloseBtn.setAttribute('id', 'dlgAttachmentRenameCloseBtn');
-    dialogCloseBtn.setAttribute('class', 'aui-button tabable');
-    dialogCloseBtn.innerHTML = 'Cancel';
-    dialogCloseBtn.style.cssText = 'margin:10px;width:100px;flex:0 0 auto;align-self:flex-end;';
-    general.bindEvent(dialogCloseBtn, 'click', function(e) {
-        closePreviewDlg();
-    });
-    dialogButtonContainer.appendChild(dialogCloseBtn);
-
-    container.setAttribute("aria-hidden", true);
-    container.style.overflow = 'hidden';
-    dialog.querySelector('#attachmentName').focus();
-    dialog.querySelector('#attachmentName').select();
-}
-
-function closePreviewDlg() {
-    container.setAttribute("aria-hidden", false);
-    container.style.overflow = 'auto';
-    try {
-        const bg = container.querySelector("#dlgAttachmentRenameBackground");
-        if (bg) {
-            bg.removeChild(container.querySelector("#dlgAttachmentRenameDialog"));
-            container.removeChild(bg);
-        }
-    } catch (e) {
-        console.log(e);
-    }
-    if (lastFocus) {
-        lastFocus.focus();
-    }
-}
-
-function renameAttachment(oldName, newName) {
-    let attachmentId = null;
-    const issueKey = document.querySelector('meta[name=ajs-issue-key]');
-    const issueID = issueKey.getAttribute('content');
-
-    fetch('https://paciellogroup.atlassian.net/rest/api/latest/issue/' + issueID + '?fields=attachment',{
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: {
-            'Accept': 'application/json'
-        }
-    }).then(response => {
-        return getAttachments(response);
-    }).then(attachments => {
-        const attachment = getAttachment(attachments, oldName);
-        attachmentId = attachment.id;
-        return attachment;
-    }).then(attachment => {
-        return downloadAttachment(attachment);
-    }).then(response => {
-        return packAttachment(response, newName);
-    }).then(payload => {
-        return uploadAttachment(issueID, payload);
-    }).then (response => {
-        // Should check response here
-        return getIssueDescription(issueID);
-    }).then(response => {
-        return massageDescription(response, oldName, newName);
-    }).then(description => {
-        return setDescription(issueID, description);
-    }).then(response => {
-        // Should check response here
-        if (removeAttachment(attachmentId)) {
-            alert('Success!');
-            document.location.reload(true);
-        } else {
-            alert("Oops! Something didn't work right.");
-        }
-    });
-    closePreviewDlg();
-}
-
-function getAttachments(response) {
-    // Get the issue's attachments
-    return response.json().then(json => {
-        return json.fields.attachment;
-    });
-}
-
-function getAttachment(attachments, oldName) {
-    let attachment = null;
-    for (let i = 0; i < attachments.length; i++) {
-        if (attachments[i].filename === oldName) {
-            attachment = attachments[i];
-            break;
-        }
-    }
-    return attachment;
-}
-
-function downloadAttachment(attachment) {
-    const attachmentId = attachment.id;
-    // Download the attachment
-    return fetch(attachment.content, {
-        method:'get',
-        credentials: 'same-origin'
-    }).then(response => {
-        return response;
-    });
-}
-
-function packAttachment(response, newName) {
-    // Package the attachment for uploading
-    return response.blob().then(blob => {
-        const fd = new FormData();
-        fd.append('file', blob, newName);
-        return fd;
-    });
-}
-
-function uploadAttachment(issueID, payload) {
-    // Upload the attachment
-    return fetch('https://paciellogroup.atlassian.net/rest/api/latest/issue/' + issueID + '/attachments', {
-        method: 'POST',
-        credentials: 'same-origin',
-        body: payload,
-        headers: {
-            "Accept": "application/json",
-            "X-Atlassian-Token": "no-check"
-        }
-    }).then(response => {
-        return response;
-    });
-}
-
-function getIssueDescription(issueID) {
-    // Get the issue description
-    return fetch('https://paciellogroup.atlassian.net/rest/api/latest/issue/' + issueID + '?fields=description',{
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: {
-            'Accept': 'application/json'
-        }
-    }).then(response => {
-        return response;
-    });
-}
-
-function massageDescription(response, oldName, newName) {
-    // replace filename in description
-    return response.json().then(json => {
-        const regName = oldName.replace(/[.*+?^${}()|[\]\\]/, '\\$&');
-        const regexp = new RegExp(regName, 'g');
-        return json.fields.description.replace(regexp, newName);
-    });
-}
-
-function setDescription(issueID, description) {
-    return fetch('https://paciellogroup.atlassian.net/rest/api/latest/issue/' + issueID, {
-        method: 'PUT',
-        credentials: 'same-origin',
-        body: "{\"fields\": { \"description\": \"" + description.replace(/\r\n/g, '\\n').replace(/\n/g, '\\n').replace(/"/g, '\"') + "\"}}",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        }
-    }).then(response => {
-        return response;
-    });
-}
-
-function removeAttachment(attachmentId) {
-    return fetch('https://paciellogroup.atlassian.net/rest/api/latest/attachment/' + attachmentId, {
-        method: 'DELETE',
-        credentials: 'same-origin',
-        headers: {
-            "Accept": "application/json"
-        }
-    }).then(response => {
-        return (response.status === 204);
-    });
-}
-},{"./general.js":4}],10:[function(require,module,exports){
-'use strict';
-
-const general = require('./general.js');
-
 // addAltVerifyBtn - Adds a button to a Jira issue page for verifying alt attributes
 exports.addAltVerifyBtn = function () {
-	const descMod = document.querySelector('div#descriptionmodule');
-	if (descMod) {
-		const altBtn = document.createElement('button');
-		altBtn.setAttribute('class', 'aui-button');
-		const altBtnName = document.createTextNode('Verify Alt(s)');
-		altBtn.appendChild(altBtnName);
-		general.bindEvent(altBtn, 'click', function() {
-			verifyAlts();
-		});
-		descMod.parentNode.insertBefore(altBtn, descMod);
+	const commandBar = document.querySelector('.command-bar .toolbar-split');
+	if (commandBar) {
+	    if (!commandBar.querySelector('#altVerifyBtn')) {
+            const altBtn = document.createElement('button');
+            altBtn.setAttribute('class', 'aui-button');
+            altBtn.setAttribute('id', 'altVerifyBtn');
+            const altBtnName = document.createTextNode('Verify Alts');
+            altBtn.appendChild(altBtnName);
+            general.bindEvent(altBtn, 'click', function () {
+                verifyAlts();
+            });
+            commandBar.appendChild(altBtn);
+        }
 	}
 };
 
-// verifyAlts - Verifies the alt attributes in a Jira issue page's description block
+// verifyAlts - Verifies the alt attributes in a Jira issue page
 function verifyAlts() {
-	let r = '';
-	const jm = document.querySelector('#descriptionmodule');
-	if (jm) {
-		const imgs = jm.querySelectorAll('img');
-		if (imgs.length) {
-			for (let i = 0; i < imgs.length; i++) {
-				const alt = imgs[i].getAttribute('alt');
-				const src = imgs[i].getAttribute('src').split('\\').pop().split('/').pop().split('?')[0];
-				if (alt === null || alt === '' || alt === src) {
-					r += src + ' missing alt (currently ' + (alt === '' ? 'empty' : alt) + ')\r\n';
-				}
-			}
-			if (r.length) {
-				alert(r);
-			} else {
-				alert('Good to go!');
-			}
-		} else {
-			alert('No images found!');
-		}
-	} else {
-		alert('No description module found! Are you on an issue page?');
-	}
+    let r = '';
+	const modules = [
+        {
+            id: '#customfield_10035-val',
+            name: 'Remediation'
+        },
+        {
+            id: '#descriptionmodule',
+            name: 'Description'
+        }
+    ];
+	modules.forEach(function(module) {
+        const jm = document.querySelector(module.id);
+        if (jm) {
+            const imgs = jm.querySelectorAll('img');
+            if (imgs.length) {
+                for (let i = 0; i < imgs.length; i++) {
+                    const alt = imgs[i].getAttribute('alt');
+                    const src = imgs[i].getAttribute('src').split('\\').pop().split('/').pop().split('?')[0];
+                    if (alt === null || alt === '' || alt === src) {
+                        r += module.name + ': ' + src + ' missing alt (currently ' + (alt === '' ? 'empty' : alt) + ')\r\n';
+                    }
+                }
+            }
+        }
+	});
+    if (r.length) {
+        alert(r);
+    } else {
+        alert('Good to go!');
+    }
 }
 
 

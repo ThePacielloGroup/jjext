@@ -1,0 +1,23 @@
+{
+  "addons": {
+    "{e3839214-42ff-4329-98cf-a9ac2a32857e}": {
+      "updates": [
+        { "version": "1.1.3",
+          "update_link": "https://services.vfogroup.com/jira_jubilee/web-ext/jira_jubilee-1.1.3-an+fx.xpi"
+        },
+        { "version": "1.1.4",
+          "update_link": "https://services.vfogroup.com/jira_jubilee/web-ext/jira_jubilee-1.1.4-an+fx.xpi"
+        },
+        { "version": "1.1.5",
+          "update_link": "https://services.vfogroup.com/jira_jubilee/web-ext/jira_jubilee-1.1.5-an+fx.xpi"
+        },
+        { "version": "1.1.7",
+          "update_link": "https://services.vfogroup.com/jira_jubilee/web-ext/jira_jubilee-1.1.7-an+fx.xpi"
+        },
+        { "version": "1.1.8",
+          "update_link": "https://services.vfogroup.com/jira_jubilee/web-ext/jira_jubilee-1.1.8-an+fx.xpi"
+        }
+      ]
+    }
+  }
+}
