@@ -1,3 +1,4 @@
+lib/highlight.js/build/
 node_modules/
 dist/web-ext-artifacts/*.xpi
 dist/web-ext-artifacts/*.zip
