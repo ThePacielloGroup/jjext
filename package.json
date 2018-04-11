@@ -9,7 +9,8 @@
     "acorn": "^5.5.3",
     "browserify": "^16.1.1",
     "concat": "^1.0.3",
-    "userscript-utils": "^1.0.1"
+    "userscript-utils": "^1.0.1",
+    "web-ext": "^2.6.0"
   },
   "config": {
     "userjs": "tpg_jira_jubilee.user.js"
