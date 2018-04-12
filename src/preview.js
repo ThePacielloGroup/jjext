@@ -1,7 +1,7 @@
 'use strict';
 
 const general = require('./general.js');
-const hljs = require('../lib/highlight.js/build/highlight.pack.js');
+const hljs = require('../node_modules/highlightjs/highlight.pack.js');
 
 let lastFocus = null;
 
@@ -135,7 +135,7 @@ exports.addCodePreviewBtn = function() {
               font-weight: bold;
           }
       }
-      
+
       .hljs mark {
         border: 1px #757575 solid;
         background-color: #FFFFC3;

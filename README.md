@@ -1,9 +1,6 @@
-First install required packages and build highlight.js
+First install required packages:
 
-    npm i
-    cd lib/highlight.js/
-    npm i
-    node tools/build.js
+    npm install
 
 To build the userscript:
 
