@@ -8,11 +8,17 @@ To build the userscript:
 
 (output to dist/extension/content_scripts/tpg_jira_jubilee.user.js)
 
-To build the extension:
+To build the Firefox extension:
 
     npm run build:ff
 
 (output to dist/web-ext-artifacts)
+
+To build the Chrome zip (to submit for publishing):
+
+    npm run build:chrome
+
+(output to dist/chrome)
 
 To sign the extension:
 
