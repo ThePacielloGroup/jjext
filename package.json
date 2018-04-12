@@ -1,10 +1,23 @@
 {
   "name": "jira_jubilee",
   "version": "1.1.8",
-  "author": "Aaron Smith <ajsmith@vfogroup.com>",
   "description": "description",
-  "main": "scripts/index.js",
   "license": "ISC",
+  "author": "Aaron Smith <ajsmith@vfogroup.com>",
+  "main": "scripts/index.js",
+  "scripts": {
+    "build:chrome": "npm run build:ff && node src/makeChromeExt.js",
+    "build:ff": "npm run build:js && web-ext build -s ./dist/extension -a ./dist/web-ext-artifacts --overwrite-dest",
+    "postbuild:ff": "npm test",
+    "build:js": "npm run build:pre && browserify src/index.js -o ./dist/extension/content_scripts/$npm_package_config_userjs",
+    "build:pre": "mkdir -p ./dist/extension/content_scripts && mkdir -p ./dist/userscript",
+    "build:user": "npm run build:js && node src/makeUserscript.js ./dist/extension/content_scripts/$npm_package_config_userjs",
+    "lint": "npm test",
+    "test": "npm run build:js && web-ext lint -s ./dist/extension --self-hosted"
+  },
+  "config": {
+    "userjs": "tpg_jira_jubilee.user.js"
+  },
   "dependencies": {
     "acorn": "^5.5.3",
     "archiver": "^2.1.1",
@@ -14,17 +27,5 @@
     "highlightjs": "^9.10.0",
     "userscript-utils": "^1.0.1",
     "web-ext": "^2.6.0"
-  },
-  "config": {
-    "userjs": "tpg_jira_jubilee.user.js"
-  },
-  "scripts": {
-    "test": "npm run build:js && web-ext lint -s ./dist/extension --self-hosted",
-    "lint": "npm test",
-    "build:pre": "mkdir -p ./dist/extension/content_scripts && mkdir -p ./dist/userscript",
-    "build:js": "npm run build:pre && browserify src/index.js -o ./dist/extension/content_scripts/$npm_package_config_userjs",
-    "build:ff": "npm run build:js && web-ext build -s ./dist/extension -a ./dist/web-ext-artifacts --overwrite-dest",
-    "build:user": "npm run build:js && node src/makeUserscript.js ./dist/extension/content_scripts/$npm_package_config_userjs",
-    "build:chrome": "npm run build:ff && node src/makeChromeExt.js"
   }
 }
