@@ -7,5 +7,6 @@ dist/web-ext-artifacts/*.zip
 tpg_jira_jubilee.user.js
 
 # Editor/IDE stuff
+*.swp
 .idea/**/workspace.xml
 .idea/**/tasks.xml
