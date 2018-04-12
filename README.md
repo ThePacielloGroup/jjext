@@ -1,6 +1,6 @@
 First install required packages:
 
-    npm i
+    npm install
 
 To build the userscript:
 
