@@ -4,6 +4,7 @@ node_modules/
 # Built stuff
 dist/web-ext-artifacts/*.xpi
 dist/web-ext-artifacts/*.zip
+dist/chrome/*.zip
 tpg_jira_jubilee.user.js
 
 # Editor/IDE stuff
