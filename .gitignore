@@ -1,5 +1,4 @@
 # Packages
-lib/highlight.js/build/
 node_modules/
 
 # Built stuff
