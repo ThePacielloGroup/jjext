@@ -14,7 +14,12 @@ exports.addToolbarButtons = function(node) {
         toolbarMains.forEach(function (toolbarMain) {
             const toolbarPrimary = toolbarMain.querySelector('.aui-toolbar2-primary');
             if (toolbarPrimary) {
-                btns.forEach(btn => addBtn(toolbarMain, toolbarPrimary, btn));
+                btns.forEach(btn => {
+                    const btnTitle = '[title="' + btn.label + ' ' + btn.html + '"]';
+                    if (!toolbarPrimary.querySelector(btnTitle)) {
+                        addBtn(toolbarMain, toolbarPrimary, btn);
+                    }
+                });
             }
         });
     }
