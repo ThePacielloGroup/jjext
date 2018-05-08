@@ -16,6 +16,9 @@
         },
         { "version": "1.1.8",
           "update_link": "https://services.vfogroup.com/jira_jubilee/web-ext/jira_jubilee-1.1.8-an+fx.xpi"
+        },
+        { "version": "1.1.9",
+          "update_link": "https://services.vfogroup.com/jira_jubilee/web-ext/jira_jubilee-1.1.9-an+fx.xpi"
         }
       ]
     }

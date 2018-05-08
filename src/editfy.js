@@ -1,6 +1,12 @@
 'use strict';
 
 const general = require('./general.js');
+const btns = [
+	{label: 'Highlight', html: '(??)', wrapper : {pre:'??', post:'??'}},
+	{label: 'Strikethrough', html: '(~~)', wrapper: {pre:'~~', post:'~~'}},
+    {label: 'Keyboard', html: '(Kbd)', wrapper: {pre:'{{kbd:', post:'}}'}},
+    {label: 'Code', html: '(Code)', wrapper: {pre:'{{', post:'}}'}},
+	];
 
 exports.addToolbarButtons = function(node) {
 	const toolbarMains = node.querySelectorAll('.aui-toolbar2');
@@ -8,79 +14,36 @@ exports.addToolbarButtons = function(node) {
         toolbarMains.forEach(function (toolbarMain) {
             const toolbarPrimary = toolbarMain.querySelector('.aui-toolbar2-primary');
             if (toolbarPrimary) {
-                addHighlightBtn(toolbarMain, toolbarPrimary);
-                addStrikethroughBtn(toolbarMain, toolbarPrimary);
-                addKbdBtn(toolbarMain, toolbarPrimary);
+                btns.forEach(btn => {
+                    const btnTitle = '[title="' + btn.label + ' ' + btn.html + '"]';
+                    if (!toolbarPrimary.querySelector(btnTitle)) {
+                        addBtn(toolbarMain, toolbarPrimary, btn);
+                    }
+                });
             }
         });
     }
 };
 
-function addHighlightBtn(toolbarMain, toolbarPrimary) {
-	const b = document.createElement('button');
-	b.innerHTML = '(??)';
-	b.setAttribute('class', 'aui-button');
-	b.setAttribute('title', 'Highlight (??)');
-	b.setAttribute('aria-label', 'Highlight');
-	const btnHandler = {
-		toolbarMain: toolbarMain,
-		handleEvent: function(e) {
-			e.preventDefault && e.preventDefault();
-			// a is the textarea
-			const a = toolbarMain.parentNode.nextSibling.querySelector('textarea');
-			const curPos = a.selectionStart;
-			const markup = '??' + a.value.slice(a.selectionStart, a.selectionEnd) + '??';
-			a.value = a.value.slice(0, a.selectionStart) + markup + a.value.slice(a.selectionEnd);
-			a.focus();
-			a.setSelectionRange(curPos + markup.length, curPos + markup.length);
-		}
-	};
-	general.bindEvent(b, 'click', btnHandler);
-	toolbarPrimary.appendChild(b);
-};
-
-function addStrikethroughBtn(toolbarMain, toolbarPrimary) {
-	const b = document.createElement('button');
-	b.innerHTML = '(~~)';
-	b.setAttribute('class', 'aui-button');
-	b.setAttribute('title', 'Strikethrough (??)');
-	b.setAttribute('aria-label', 'Strikethrough');
-	const btnHandler = {
-		toolbarMain: toolbarMain,
-		handleEvent: function(e) {
-			e.preventDefault && e.preventDefault();
-			// a is the textarea
-			const a = toolbarMain.parentNode.nextSibling.querySelector('textarea');
-			const curPos = a.selectionStart;
-			const markup = '~~' + a.value.slice(a.selectionStart, a.selectionEnd) + '~~';
-			a.value = a.value.slice(0, a.selectionStart) + markup + a.value.slice(a.selectionEnd);
-			a.focus();
-			a.setSelectionRange(curPos + markup.length, curPos + markup.length);
-		}
-	};
-	general.bindEvent(b, 'click', btnHandler);
-	toolbarPrimary.appendChild(b);
-};
-
-function addKbdBtn(toolbarMain, toolbarPrimary) {
-	const b = document.createElement('button');
-	b.innerHTML = '{{Kbd}}';
-	b.setAttribute('class', 'aui-button');
-	b.setAttribute('title', 'Keyboard (Kbd)');
-	b.setAttribute('aria-label', 'Keyboard');
-	const btnHandler = {
-		toolbarMain: toolbarMain,
-		handleEvent: function(e) {
-			e.preventDefault && e.preventDefault();
-			// a is the textarea
-			const a = toolbarMain.parentNode.nextSibling.querySelector('textarea');
-			const curPos = a.selectionStart;
-			const markup = '{{kbd:' + a.value.slice(a.selectionStart, a.selectionEnd) + '}}';
-			a.value = a.value.slice(0, a.selectionStart) + markup + a.value.slice(a.selectionEnd);
-			a.focus();
-			a.setSelectionRange(curPos + markup.length, curPos + markup.length);
-		}
-	};
-	general.bindEvent(b, 'click', btnHandler);
-	toolbarPrimary.appendChild(b);
-};
+function addBtn(toolbarMain, toolbarPrimary, btn) {
+    const b = document.createElement('button');
+    b.innerHTML = btn.html;
+    b.setAttribute('class', 'aui-button');
+    b.setAttribute('title', btn.label + ' ' + btn.html);
+    b.setAttribute('aria-label', b.getAttribute('title'));
+    const btnHandler = {
+        toolbarMain: toolbarMain,
+        handleEvent: function(e) {
+            e.preventDefault && e.preventDefault();
+            // a is the textarea
+            const a = toolbarMain.parentNode.nextSibling.querySelector('textarea');
+            const curPos = a.selectionStart;
+            const markup = btn.wrapper.pre + a.value.slice(a.selectionStart, a.selectionEnd) + btn.wrapper.post;
+            a.value = a.value.slice(0, a.selectionStart) + markup + a.value.slice(a.selectionEnd);
+            a.focus();
+            a.setSelectionRange(curPos + markup.length, curPos + markup.length);
+        }
+    };
+    general.bindEvent(b, 'click', btnHandler);
+    toolbarPrimary.appendChild(b);
+}
