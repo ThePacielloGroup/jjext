@@ -1,10 +1,9 @@
 {
   "name": "jira_jubilee",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "author": "Aaron Smith <ajsmith@vfogroup.com>",
   "description": "description",
   "license": "ISC",
-  "author": "Aaron Smith <ajsmith@vfogroup.com>",
   "main": "scripts/index.js",
   "scripts": {
     "build:chrome": "npm run build:ff && node src/makeChromeExt.js",

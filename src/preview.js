@@ -159,7 +159,7 @@ function previewCodeDialog(content) {
     const background = document.createElement("div");
     background.setAttribute("id", "dlgCodePreviewBackground");
     background.setAttribute("tabindex", "-1");
-    background.style.cssText = "position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: rgba(0,0,0,.75);display: flex;align-items: center;justify-content: center;z-index: 1000;";
+    background.style.cssText = "position: fixed;top: 0px;left: 0px;width: 100%;height: 100%;background-color: rgba(0,0,0,.75);display: flex;align-items: center;justify-content: center;z-index: 1000;";
     document.body.appendChild(background);
 
     const dialog = document.createElement("div");
