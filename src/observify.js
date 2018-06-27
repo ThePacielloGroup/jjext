@@ -6,6 +6,7 @@ const preview = require('./preview');
 //const renamify = require('./renamify');
 const verify = require('./verify.js');
 const examples = require('./examples.js');
+const savify = require('./savify.js');
 
 exports.myObserver = new MutationObserver(
 	function (mutations) {
@@ -38,6 +39,7 @@ function childListMutationHandler(nodes) {
 				}
 				if (node.querySelector('div[id^="wiki-edit"].wiki-edit-toolbar')) {
 					editfy.addToolbarButtons(node);
+					savify.addEscapeCheck(node);
 				}
 				if (node.querySelectorAll('.code.panel').length) {
 					preview.addCodePreviewBtn();
