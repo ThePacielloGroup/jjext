@@ -33,6 +33,12 @@ if (document.querySelector('meta[name="application-name"][content="JIRA"]')) {
             }
         }
 	}
+
+	// Add custom styles
+	const jjStyles = document.createElement('style');
+	jjStyles.innerHTML = 'img {max-width: 100%;}';
+	document.head.appendChild(jjStyles);
+
 	preview.addCodePreviewBtn();
 	verify.addAltVerifyBtn();
 	examples.addExamplesBtn();

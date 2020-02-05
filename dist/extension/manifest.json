@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Jira Jubilee",
-  "version": "1.2.1",
+  "version": "1.2.2",
 
   "description": "Provides TPG specific utilities for manipulating Jira.",
 
@@ -19,7 +19,7 @@
 
   "applications": {
     "gecko": {
-      "update_url": "https://services.vfogroup.com/jira_jubilee/web-ext/updates.json"
+      "update_url": "https://files.paciellogroup.com/jira_jubilee/web-ext/updates.json"
     }
   }
 }
