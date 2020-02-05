@@ -24,4 +24,4 @@ To sign the extension:
 
     web-ext sign -s ./dist/extension -a ./dist/web-ext-artifacts --api-key=[API_KEY] --api-secret=[API_SECRET]
 
-API_KEY & API_SECRET obtained from Mozilla Developer Hub account.
+API_KEY & API_SECRET obtained from [Mozilla Developer Hub](https://addons.mozilla.org/en-US/developers/addon/api/key/) account.
