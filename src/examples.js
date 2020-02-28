@@ -98,37 +98,25 @@ function examplesDialog(content) {
 
     const styles = document.createElement("style");
     styles.setAttribute("type", "text/css");
-    styles.innerHTML = "table {\n" +
-        "  border-collapse: collapse;\n" +
-        "  width: 99%;\n" +
-        "}\n" +
-        "th, td {\n" +
-        "  padding: 0.25rem;\n" +
-        "  text-align: left;\n" +
-        "  border: 1px solid #ccc;\n" +
-        "}\n" +
-        "th {\n" +
-        "  background: #dcdcdc;\n" +
-        "}\n" +
-        "tr:hover {\n" +
-        "  background: #dcdcdc;\n" +
-        "}\n";
+    styles.textContent = "table {border-collapse: collapse; width: 99%;}th, td {padding: 0.25rem; text-align: left; border: 1px solid #ccc;}th {background: #dcdcdc;}tr:hover {background: #dcdcdc;}";
     dialog.appendChild(styles);
 
     const dialogTitle = document.createElement('h1');
-    dialogTitle.innerHTML = 'Example Issues';
+    dialogTitle.textContent = 'Example Issues';
     dialogTitle.style.cssText = 'margin:10px;';
     dialog.appendChild(dialogTitle);
-
+    
     const dialogContent = document.createElement('div');
-    dialogContent.innerHTML = content;
+    const parser = new DOMParser();
+    const parsed = parser.parseFromString(content, 'text/html');
+    dialogContent.appendChild(parsed.body.firstChild);
     dialogContent.style.cssText = 'margin:10px;overflow-y:scroll;';
     dialog.appendChild(dialogContent);
 
     const dialogCloseBtn = document.createElement('button');
     dialogCloseBtn.setAttribute('id', 'dlgExamplesCloseBtn');
     dialogCloseBtn.setAttribute('class', 'aui-button tabable');
-    dialogCloseBtn.innerHTML = 'Close';
+    dialogCloseBtn.textContent = 'Close';
     dialogCloseBtn.style.cssText = 'margin:10px;width:100px;flex:1 1 auto;align-self:flex-end;';
     general.bindEvent(dialogCloseBtn, 'click', function(e) {
         closePreviewDlg();

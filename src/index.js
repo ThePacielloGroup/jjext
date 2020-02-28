@@ -36,7 +36,7 @@ if (document.querySelector('meta[name="application-name"][content="JIRA"]')) {
 
 	// Add custom styles
 	const jjStyles = document.createElement('style');
-	jjStyles.innerHTML = 'img {max-width: 100%;}';
+	jjStyles.textContent = 'img {max-width: 100%;} img#cp-img {max-width: unset;}';
 	document.head.appendChild(jjStyles);
 
 	preview.addCodePreviewBtn();

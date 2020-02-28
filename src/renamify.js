@@ -19,7 +19,7 @@ exports.addRenameBtn = function() {
             renameDlg(attachmentName);
         });
         // Add some space before adding the button
-        container.firstElementChild.innerHTML += '&nbsp;';
+        container.firstElementChild.textContent += '&nbsp;';
         container.firstElementChild.appendChild(renameBtn);
     }
 };
@@ -66,17 +66,17 @@ function renameDlg(attachmentName) {
 
     const dialogTitle = document.createElement('h1');
     dialogTitle.setAttribute('id', 'dlgAttachmentRenameTitle');
-    dialogTitle.innerHTML = 'Rename Attachment';
+    dialogTitle.textContent = 'Rename Attachment';
     dialogTitle.style.cssText = 'margin:10px;';
     dialog.appendChild(dialogTitle);
 
     const dialogContent = document.createElement('div');
-    dialogContent.innerHTML = '<h2>Notes</h2><ol id="renameNotes">' +
+    dialogContent.textContent = '<h2>Notes</h2><ol id="renameNotes">' +
         '<li>The page will reload after renaming. If you have unsaved work, save before renaming.</li>' +
         '<li>Any references to the previous file name will need to be updated manually.</li>' +
         '<li>If you do not have permissions to remove attachments in this issue, the attachment will be duplicated with the new filename. Contact the original author to have the previous attachment removed.</li>' +
     '</ol>';
-    dialogContent.innerHTML += 'Name: ';
+    dialogContent.textContent += 'Name: ';
     dialogContent.style.cssText = 'margin:10px;border:1px #ededed solid;padding:1em;color:#000000;';
     dialog.appendChild(dialogContent);
 
@@ -98,7 +98,7 @@ function renameDlg(attachmentName) {
     const dialogRenameBtn = document.createElement('button');
     dialogRenameBtn.setAttribute('id', 'dlgAttachmentRenameBtn');
     dialogRenameBtn.setAttribute('class', 'aui-button tabable');
-    dialogRenameBtn.innerHTML = 'Rename';
+    dialogRenameBtn.textContent = 'Rename';
     dialogRenameBtn.style.cssText = 'margin:10px;width:100px;flex:0 0 auto;align-self:flex-end;';
     general.bindEvent(dialogRenameBtn, 'click', function(e) {
         renameAttachment(dialog.querySelector('#attachmentName').dataset.oldval, dialog.querySelector('#attachmentName').value);
@@ -108,7 +108,7 @@ function renameDlg(attachmentName) {
     const dialogCloseBtn = document.createElement('button');
     dialogCloseBtn.setAttribute('id', 'dlgAttachmentRenameCloseBtn');
     dialogCloseBtn.setAttribute('class', 'aui-button tabable');
-    dialogCloseBtn.innerHTML = 'Cancel';
+    dialogCloseBtn.textContent = 'Cancel';
     dialogCloseBtn.style.cssText = 'margin:10px;width:100px;flex:0 0 auto;align-self:flex-end;';
     general.bindEvent(dialogCloseBtn, 'click', function(e) {
         closePreviewDlg();

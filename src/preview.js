@@ -34,7 +34,7 @@ exports.addCodePreviewBtn = function() {
     // Plus some custom styling
     const style = document.createElement('style');
     style.type = 'text/css';
-    style.innerHTML = `
+    style.textContent = `
       /* a11y-light theme */
       /* Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css */
       /* @author: ericwbailey */
@@ -195,7 +195,7 @@ function previewCodeDialog(content) {
     background.appendChild(dialog);
 
     const dialogTitle = document.createElement('h1');
-    dialogTitle.innerHTML = 'Code Preview';
+    dialogTitle.textContent = 'Code Preview';
     dialogTitle.style.cssText = 'margin:10px;';
     dialog.appendChild(dialogTitle);
 
@@ -212,7 +212,7 @@ function previewCodeDialog(content) {
     const dialogCloseBtn = document.createElement('button');
     dialogCloseBtn.setAttribute('id', 'dlgCodePreviewCloseBtn');
     dialogCloseBtn.setAttribute('class', 'aui-button tabable');
-    dialogCloseBtn.innerHTML = 'Close';
+    dialogCloseBtn.textContent = 'Close';
     dialogCloseBtn.style.cssText = 'margin:10px;width:100px;flex:1 1 auto;align-self:flex-end;';
     general.bindEvent(dialogCloseBtn, 'click', function(e) {
         closePreviewDlg();

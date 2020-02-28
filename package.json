@@ -1,6 +1,6 @@
 {
   "name": "jira_jubilee",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "author": "Aaron Smith <ajsmith@vfogroup.com>",
   "description": "description",
   "license": "ISC",
@@ -11,9 +11,10 @@
     "postbuild:ff": "npm test",
     "build:js": "npm run build:pre && browserify src/index.js -o ./dist/extension/content_scripts/$npm_package_config_userjs",
     "build:pre": "mkdir -p ./dist/extension/content_scripts && mkdir -p ./dist/userscript",
-    "build:user": "npm run build:js && node src/makeUserscript.js ./dist/extension/content_scripts/$npm_package_config_userjs",
+    "build:user": "npm run build:js && node src/makeUserscript.js ./dist/extension/content_scripts/$npm_package_config_userjs && npm run test",
     "lint": "npm test",
-    "test": "npm run build:js && web-ext lint -s ./dist/extension --self-hosted"
+    "test": "npm run build:js && web-ext lint -s ./dist/extension --self-hosted",
+    "localtest": "web-ext lint -s src --self-hosted"
   },
   "config": {
     "userjs": "tpg_jira_jubilee.user.js"

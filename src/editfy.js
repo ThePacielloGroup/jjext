@@ -14,12 +14,15 @@ exports.addToolbarButtons = function(node) {
         toolbarMains.forEach(function (toolbarMain) {
             const toolbarPrimary = toolbarMain.querySelector('.aui-toolbar2-primary');
             if (toolbarPrimary) {
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.setAttribute('class', 'aui-buttons');
                 btns.forEach(btn => {
                     const btnTitle = '[title="' + btn.label + ' ' + btn.html + '"]';
                     if (!toolbarPrimary.querySelector(btnTitle)) {
-                        addBtn(toolbarMain, toolbarPrimary, btn);
+                        buttonsDiv.appendChild(addBtn(toolbarMain, toolbarPrimary, btn));
                     }
                 });
+                toolbarPrimary.appendChild(buttonsDiv);
             }
         });
     }
@@ -27,7 +30,9 @@ exports.addToolbarButtons = function(node) {
 
 function addBtn(toolbarMain, toolbarPrimary, btn) {
     const b = document.createElement('button');
-    b.innerHTML = btn.html;
+    const parser = new DOMParser();
+    const parsed = parser.parseFromString(btn.html, 'text/html');
+    b.appendChild(parsed.body.firstChild);
     b.setAttribute('class', 'aui-button');
     b.setAttribute('title', btn.label + ' ' + btn.html);
     b.setAttribute('aria-label', b.getAttribute('title'));
@@ -45,5 +50,5 @@ function addBtn(toolbarMain, toolbarPrimary, btn) {
         }
     };
     general.bindEvent(b, 'click', btnHandler);
-    toolbarPrimary.appendChild(b);
+    return b;
 }
