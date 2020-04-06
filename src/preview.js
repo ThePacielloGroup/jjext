@@ -200,15 +200,19 @@ function previewCodeDialog(content) {
     dialog.appendChild(dialogTitle);
 
     const dialogContent = document.createElement('div');
-    dialogContent.innerHTML = '<xmp class="hljs xml">' + content.replace(/\n/g, '<br>') + '</xmp>';
-    dialogContent.className = 'hljs xml';
+    // Make content HTML safe - automagically encodes entities like < >
+    dialogContent.innerText = dialogContent.textContent = content;
+    content = dialogContent.innerHTML;
+    // Add explicit line breaks and apply the TPG custom highlight/strikethroughs
+    dialogContent.innerHTML = content.replace(/\n/g, '<br>');
+    dialogContent.innerHTML = highlight(strikethrough(dialogContent.innerHTML))
+    dialogContent.innerHTML = '<pre><code class="hljs xml">' + dialogContent.innerHTML + '</code></pre>';
     dialogContent.style.cssText = 'margin:10px;font-family:monospace;white-space:pre-wrap;word-wrap:normal;border:1px #ededed solid;padding:1em;overflow-x:auto;';
     dialog.appendChild(dialogContent);
+    // Apply highlighting.js code highlighting
     hljs.configure({useBR:true});
     hljs.highlightBlock(dialogContent);
-
-    dialogContent.innerHTML = highlight(strikethrough(dialogContent.innerHTML));
-
+    
     const dialogCloseBtn = document.createElement('button');
     dialogCloseBtn.setAttribute('id', 'dlgCodePreviewCloseBtn');
     dialogCloseBtn.setAttribute('class', 'aui-button tabable');
