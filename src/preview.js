@@ -204,7 +204,7 @@ function previewCodeDialog(content) {
     dialogContent.innerText = dialogContent.textContent = content;
     // Add explicit line breaks and apply the TPG custom highlight/strikethroughs
     dialogContent.innerHTML = dialogContent.innerHTML.replace(/\n/g, '<br>');
-    dialogContent.innerHTML = highlight(strikethrough(dialogContent.innerHTML))
+    dialogContent.innerHTML = highlight(strikethrough(dialogContent.innerHTML));
     dialogContent.innerHTML = '<pre><code class="hljs xml">' + dialogContent.innerHTML + '</code></pre>';
     dialogContent.style.cssText = 'margin:10px;font-family:monospace;white-space:pre-wrap;word-wrap:normal;border:1px #ededed solid;padding:1em;overflow-x:auto;';
     dialog.appendChild(dialogContent);
