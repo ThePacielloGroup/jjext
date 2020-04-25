@@ -36,7 +36,7 @@ if (document.querySelector('meta[name="application-name"][content="JIRA"]')) {
 
 	// Add custom styles
 	const jjStyles = document.createElement('style');
-	jjStyles.textContent = 'img {max-width: 100%;} img#cp-img {max-width: unset;} h5 { margin-top: 16px !important;} .flooded > ul, .flooded > ol { margin-top: 10px; }';
+	jjStyles.textContent = 'img {max-width: 100%;} img#cp-img {max-width: unset;} h5 {margin-top: 16px !important;} .flooded > ul, .flooded > ol {margin-top: 10px;} tt {border: 1px #888 solid; padding: 0.2em; background: #eee;}';
 	document.head.appendChild(jjStyles);
 
 	preview.addCodePreviewBtn();
