@@ -31,6 +31,12 @@
         },
         { "version": "1.2.3",
           "update_link": "https://files.paciellogroup.com/jira_jubilee/web-ext/jira_jubilee-1.2.3-an+fx.xpi"
+        },
+        { "version": "1.2.4",
+          "update_link": "https://files.paciellogroup.com/jira_jubilee/web-ext/jira_jubilee-1.2.4-an+fx.xpi"
+        },
+        { "version": "1.2.5",
+          "update_link": "https://files.paciellogroup.com/jira_jubilee/web-ext/jira_jubilee-1.2.5-an+fx.xpi"
         }
       ]
     }
