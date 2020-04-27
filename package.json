@@ -20,14 +20,14 @@
     "userjs": "tpg_jira_jubilee.user.js"
   },
   "dependencies": {
-    "acorn": "^5.5.3",
+    "acorn": "^5.7.4",
     "archiver": "^2.1.1",
     "browserify": "^16.1.1",
     "concat": "^1.0.3",
     "fs-extra": "^5.0.0",
     "highlightjs": "^9.10.0",
     "userscript-utils": "^1.0.1",
-    "web-ext": "^2.6.0"
+    "web-ext": "^2.9.3"
   },
   "devDependencies": {
     "web-ext": "^2.9.3"
