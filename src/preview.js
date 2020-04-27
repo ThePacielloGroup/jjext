@@ -200,16 +200,17 @@ function previewCodeDialog(content) {
     dialog.appendChild(dialogTitle);
 
     const dialogContent = document.createElement('div');
+
     // Make content HTML safe - automagically encodes entities like < >
     dialogContent.innerText = dialogContent.textContent = content;
-    // Add explicit line breaks and apply the TPG custom highlight/strikethroughs
-    dialogContent.innerHTML = dialogContent.innerHTML.replace(/\n/g, '<br>');
-    dialogContent.innerHTML = highlight(strikethrough(dialogContent.innerHTML));
-    dialogContent.innerHTML = '<pre><code class="hljs xml">' + dialogContent.innerHTML + '</code></pre>';
+    // Apply the TPG custom highlight/strikethroughs
+    dialogContent.innerHTML = highlight(strikethrough(dialogContent.innerHTML))
+
+    dialogContent.innerHTML = '<pre><code class="hljs">' + dialogContent.innerHTML + '</code></pre>';
     dialogContent.style.cssText = 'margin:10px;font-family:monospace;white-space:pre-wrap;word-wrap:normal;border:1px #ededed solid;padding:1em;overflow-x:auto;';
     dialog.appendChild(dialogContent);
+
     // Apply highlighting.js code highlighting
-    hljs.configure({useBR:true});
     hljs.highlightBlock(dialogContent);
     
     const dialogCloseBtn = document.createElement('button');
