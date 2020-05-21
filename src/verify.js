@@ -36,7 +36,7 @@ function verifyAlts() {
 	modules.forEach(function(module) {
         const jm = document.querySelector(module.id);
         if (jm) {
-            const imgs = jm.querySelectorAll('img');
+            const imgs = jm.querySelectorAll('img:not(.icon)'); // excludes Jira's own icons (e.g. in cross-references), which lack an alt attribute
             if (imgs.length) {
                 for (let i = 0; i < imgs.length; i++) {
                     const alt = imgs[i].getAttribute('alt');
